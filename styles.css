@@ -1,0 +1,147 @@
+/* styles.css - Custom UI enhancements for CaniPet */
+
+/* WhatsApp Chat Background */
+.whatsapp-chat-bg {
+  background-color: #efeae2;
+  background-image: radial-gradient(#d6cfc7 1px, transparent 1px), radial-gradient(#d6cfc7 1px, #efeae2 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Emergency alert pulse animation */
+@keyframes emergency-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    border-color: #ef4444;
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+    border-color: #dc2626;
+  }
+}
+
+.triage-emergency-alert {
+  animation: emergency-pulse 2s infinite ease-in-out;
+  background-color: #fef2f2 !important;
+  border-color: #f87171 !important;
+}
+
+/* Card select active states */
+.active-weight, .active-knot, .active-temp {
+  border-color: #10b981 !important;
+  background-color: #ecfdf5 !important;
+  color: #065f46 !important;
+  font-weight: 700 !important;
+}
+
+/* Service Pill Active States */
+.service-active {
+  border-color: #10b981 !important;
+  background-color: #f0fdf4 !important;
+}
+
+.service-inactive {
+  border-color: #e2e8f0 !important;
+  background-color: #ffffff !important;
+}
+
+/* --- SENIOR ACCESSIBILITY / MODO FÁCIL LETRA GRANDE --- */
+body.senior-mode {
+  font-size: 18px;
+}
+
+body.senior-mode input,
+body.senior-mode select,
+body.senior-mode textarea {
+  font-size: 16px !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  padding-right: 16px !important;
+  padding-left: 16px;
+  border-width: 2px !important;
+  border-color: #94a3b8 !important;
+}
+
+/* Ensure inputs with icons always have generous left padding */
+.input-with-icon {
+  padding-left: 2.85rem !important; /* 45.6px - leaves ample room for the icon */
+}
+
+body.senior-mode .input-with-icon {
+  padding-left: 3.1rem !important; /* 50px in senior mode */
+}
+
+body.senior-mode label {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+}
+
+body.senior-mode .weight-card,
+body.senior-mode .knot-card,
+body.senior-mode .temp-card {
+  padding: 14px 10px !important;
+  font-size: 14px !important;
+  border-width: 2px !important;
+}
+
+body.senior-mode .service-pill-btn {
+  padding: 20px 16px !important;
+  border-width: 3px !important;
+}
+
+body.senior-mode h1 {
+  font-size: 2.75rem !important;
+  line-height: 1.25 !important;
+}
+
+body.senior-mode h2,
+body.senior-mode h3 {
+  font-size: 1.25rem !important;
+}
+
+body.senior-mode #btn-send-whatsapp {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+  font-size: 1.25rem !important;
+}
+
+/* Microphone listening pulse animation */
+@keyframes mic-recording-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 16px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.mic-recording {
+  animation: mic-recording-pulse 1.5s infinite;
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+  border-color: #dc2626 !important;
+}
+

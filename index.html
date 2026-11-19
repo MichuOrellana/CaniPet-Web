@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CaniPet | Veterinaria & Peluquería Canina - Turnos Inteligentes</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+            },
+            accent: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              500: '#f59e0b',
+              600: '#d97706',
+            },
+            brand: {
+              teal: '#0d9488',
+              navy: '#0f172a',
+              amber: '#f59e0b',
+              purple: '#8b5cf6',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-white">
+
+  <!-- TOP BAR / DEMO SETTINGS BAR -->
+  <div class="bg-slate-900 text-slate-300 px-4 py-2 text-xs flex justify-between items-center border-b border-slate-800">
+    <div class="flex items-center space-x-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="font-medium text-slate-200">Demo Comercial CaniPet</span>
+      <span class="hidden sm:inline text-slate-400">| Sistema Inteligente de Pre-Agendamiento</span>
+    </div>
+    <div class="flex items-center space-x-3">
+      <button id="btn-config-phone" class="flex items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-emerald-400 px-3 py-1 rounded-md transition border border-slate-700">
+        <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+        <span>WhatsApp Destino: <strong id="display-phone" class="text-white">+54 9 11 6041-4571</strong></span>
+        <i data-lucide="edit-3" class="w-3 h-3 text-slate-400"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-200">
+          <i data-lucide="dog" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5">
+            Cani<span class="text-emerald-600">Pet</span>
+            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">AI Ready</span>
+          </span>
+          <p class="text-[11px] text-slate-500 font-medium">Clínica Veterinaria & Peluquería Canina</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button type="button" id="btn-toggle-senior-mode" class="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2 rounded-xl transition border border-slate-200">
+          <i data-lucide="glasses" class="w-4 h-4 text-emerald-600"></i>
+          <span id="senior-mode-label">Letra Grande</span>
+        </button>
+        <a href="#booking-section" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-sm hover:shadow">
+          <i data-lucide="calendar" class="w-4 h-4"></i>
+          <span>Pedir Turno</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-emerald-50/60 via-slate-50 to-slate-50 pt-10 pb-8 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold mb-4 border border-emerald-200">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-600"></i>
+        <span>Pre-Agendamiento Rápido con Triage Inteligente</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cuidamos a tu mejor amigo con <br class="hidden sm:inline">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">atención personalizada y sin demoras</span>
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
+        Completá los datos de tu perro en 1 minuto. Generamos una ficha clínica/estética detallada para que nuestro equipo te asigne el turno perfecto de inmediato por WhatsApp.
+      </p>
+
+      <!-- Trust Badges -->
+      <div class="mt-6 flex flex-wrap justify-center items-center gap-4 sm:gap-8 text-xs text-slate-500 font-medium">
+        <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i> Sin esperas telefónicas</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-emerald-600"></i> Ahorro de tiempo para vos y el local</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="activity" class="w-4 h-4 text-emerald-600"></i> Triage veterinario asistido por IA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN INTERACTIVE SECTION -->
+  <main id="booking-section" class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- FORM COLUMN (7 cols) -->
+      <div class="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+
+        <!-- VOICE ASSISTANT CARD (DICTADO POR VOZ - IDEAL ADULTOS MAYORES) -->
+        <div class="mb-6 p-4 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border-2 border-emerald-300/80 shadow-sm">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <button type="button" id="btn-voice-dictate" title="Presioná para hablar"
+                class="w-12 h-12 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center shadow-md transition-all active:scale-95 shrink-0 border-2 border-emerald-500">
+                <i data-lucide="mic" class="w-6 h-6"></i>
+              </button>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-extrabold text-slate-900 uppercase tracking-wider">¿Preferís hablar? Dictale al Asistente</span>
+                  <span class="text-[10px] bg-emerald-600 text-white font-extrabold px-2 py-0.5 rounded-full">Accesible</span>
+                </div>
+                <p id="voice-status-text" class="text-xs text-slate-600 mt-0.5">
+                  Tocá el micrófono y decí: <em>"Tengo a mi caniche Rocco, necesita baño y corte para el viernes"</em>
+                </p>
+              </div>
+            </div>
+            <span id="voice-listening-indicator" class="hidden text-xs bg-red-100 text-red-700 font-bold px-2.5 py-1 rounded-full animate-pulse border border-red-300">
+              ● Escuchando...
+            </span>
+          </div>
+          <!-- Live Transcript Output Badge -->
+          <div id="voice-transcript-container" class="hidden mt-3 pt-2.5 border-t border-emerald-200/60 flex items-center justify-between text-xs">
+            <span class="text-slate-600 font-medium">Texto detectado: <strong id="voice-transcript-text" class="text-emerald-900"></strong></span>
+            <span class="text-[10px] text-emerald-700 font-bold bg-white px-2 py-0.5 rounded border border-emerald-200">✓ Completado automáticamente</span>
+          </div>
+        </div>
+
+        <!-- STEP 1: SERVICE SELECTOR -->
+        <div class="mb-8">
+          <label class="block text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">
+            1. ¿Qué servicio necesita hoy?
+          </label>
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Option Peluquería -->
+            <button type="button" id="service-grooming-btn" class="service-pill-btn group relative p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50/50 text-left transition hover:shadow-md active:scale-[0.98]">
+              <div class="flex items-center justify-between mb-2">
+                <span class="p-2.5 rounded-lg bg-emerald-500 text-white shadow-sm">
+                  <i data-lucide="scissors" class="w-5 h-5"></i>
+                </span>
+                <span class="badge-selected w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs">
+                  <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                </span>
+              </div>
+              <h3 class="font-bold text-slate-900 group-hover:text-emerald-700 text-base">Peluquería Canina</h3>
+              <p class="text-xs text-slate-500 mt-1">Baños, cortes de raza, deslanado y estética</p>
+            </button>
+
+            <!-- Option Veterinaria -->
+            <button type="button" id="service-vet-btn" class="service-pill-btn group relative p-4 rounded-xl border-2 border-slate-200 bg-white text-left transition hover:border-slate-300 hover:shadow-md active:scale-[0.98]">
+              <div class="flex items-center justify-between mb-2">
+                <span class="p-2.5 rounded-lg bg-slate-100 text-slate-600 group-hover:bg-slate-200 transition">
+                  <i data-lucide="stethoscope" class="w-5 h-5"></i>
+                </span>
+                <span class="badge-selected hidden w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs">
+                  <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                </span>
+              </div>
+              <h3 class="font-bold text-slate-900 group-hover:text-slate-800 text-base">Atención Veterinaria</h3>
+              <p class="text-xs text-slate-500 mt-1">Consultas, vacunas, controles y triage médico</p>
+            </button>
+          </div>
+        </div>
+
+        <form id="booking-form" class="space-y-6" onsubmit="event.preventDefault();">
+
+          <!-- STEP 2: PET INFO -->
+          <div class="border-t border-slate-100 pt-6">
+            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <span>2. Datos de la Mascota</span>
+              <span class="text-xs font-normal text-slate-400 capitalize">(Información clave para el profesional)</span>
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="pet-name" class="block text-xs font-semibold text-slate-700 mb-1">Nombre del Perro *</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <i data-lucide="heart" class="w-4 h-4"></i>
+                  </div>
+                  <input type="text" id="pet-name" placeholder="Ej: Toby, Luna, Rocco" required
+                    class="input-with-icon w-full pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition">
+                </div>
+              </div>
+
+              <div>
+                <label for="pet-breed" class="block text-xs font-semibold text-slate-700 mb-1">Raza o Cruza *</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <i data-lucide="tag" class="w-4 h-4"></i>
+                  </div>
+                  <input type="text" id="pet-breed" placeholder="Ej: Caniche, Mestizo, Golden" required
+                    class="input-with-icon w-full pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition">
+                </div>
+              </div>
+            </div>
+
+            <!-- TAMAÑO / PESO SELECTOR (Visual Cards) -->
+            <div class="mt-4">
+              <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tamaño y Peso Aproximado *</label>
+              <div class="grid grid-cols-2 sm:grid-cols-5 gap-2" id="weight-selector">
+                <button type="button" data-weight="Mini (< 5 kg)" class="weight-card p-2.5 rounded-xl border border-slate-200 text-center hover:border-emerald-500 transition text-xs font-medium bg-slate-50">
+                  <div class="font-bold text-slate-800">Mini</div>
+                  <div class="text-[11px] text-slate-500">&lt; 5 kg</div>
+                </button>
+                <button type="button" data-weight="Chico (5 a 10 kg)" class="weight-card p-2.5 rounded-xl border border-slate-200 text-center hover:border-emerald-500 transition text-xs font-medium bg-slate-50">
+                  <div class="font-bold text-slate-800">Chico</div>
+                  <div class="text-[11px] text-slate-500">5 - 10 kg</div>
+                </button>
+                <button type="button" data-weight="Mediano (10 a 25 kg)" class="weight-card active-weight p-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-center transition text-xs font-medium">
+                  <div class="font-bold text-emerald-800">Mediano</div>
+                  <div class="text-[11px] text-emerald-600">10 - 25 kg</div>
+                </button>
+                <button type="button" data-weight="Grande (25 a 40 kg)" class="weight-card p-2.5 rounded-xl border border-slate-200 text-center hover:border-emerald-500 transition text-xs font-medium bg-slate-50">
+                  <div class="font-bold text-slate-800">Grande</div>
+                  <div class="text-[11px] text-slate-500">25 - 40 kg</div>
+                </button>
+                <button type="button" data-weight="Gigante (+ 40 kg)" class="weight-card col-span-2 sm:col-span-1 p-2.5 rounded-xl border border-slate-200 text-center hover:border-emerald-500 transition text-xs font-medium bg-slate-50">
+                  <div class="font-bold text-slate-800">Gigante</div>
+                  <div class="text-[11px] text-slate-500">+ 40 kg</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- EDAD -->
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="pet-age" class="block text-xs font-semibold text-slate-700 mb-1">Edad o Etapa</label>
+                <select id="pet-age" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                  <option value="Cachorro (< 1 año)">Cachorro (&lt; 1 año)</option>
+                  <option value="Adulto (1 a 7 años)" selected>Adulto (1 a 7 años)</option>
+                  <option value="Senior / Geronte (+ 7 años)">Senior / Geronte (+ 7 años)</option>
+                </select>
+              </div>
+              <div class="flex flex-col justify-end">
+                <div class="flex items-center gap-2 p-2.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-800">
+                  <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0"></i>
+                  <span>Los datos de peso y edad permiten calcular el tiempo exacto del turno.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3-A: CONDITIONAL SECTION - PELUQUERÍA CANINA -->
+          <div id="section-grooming" class="border-t border-slate-100 pt-6 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="scissors" class="w-4 h-4 text-emerald-600"></i>
+              <span>3. Detalles de Peluquería & Estética</span>
+            </h2>
+
+            <!-- Tipo de Servicio Peluquería -->
+            <div>
+              <label for="grooming-service-type" class="block text-xs font-semibold text-slate-700 mb-1">Servicio Solicitado</label>
+              <select id="grooming-service-type" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <option value="Baño completo + Secado + Uñas">Baño completo + Secado + Uñas</option>
+                <option value="Baño + Corte Higiénico (patas, panza, cola)">Baño + Corte Higiénico (patas, panza, cola)</option>
+                <option value="Baño + Corte Completo de Raza / Estilo">Baño + Corte Completo de Raza / Estilo</option>
+                <option value="Deslanado profundo (ideal pelo doble/muda)">Deslanado profundo (ideal pelo doble/muda)</option>
+                <option value="Solo corte de uñas y limpieza de oídos">Solo corte de uñas y limpieza de oídos</option>
+              </select>
+            </div>
+
+            <!-- Estado de Nudos -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Estado de nudos en el manto</label>
+              <div class="grid grid-cols-3 gap-2" id="knot-selector">
+                <button type="button" data-knots="Sin nudos" class="knot-card active-knot p-2 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-xs font-semibold text-emerald-800 text-center">
+                  Sin nudos
+                </button>
+                <button type="button" data-knots="Nudos moderados" class="knot-card p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-700 text-center hover:border-emerald-500">
+                  Nudos moderados
+                </button>
+                <button type="button" data-knots="Muy anudado / Rastas" class="knot-card p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-700 text-center hover:border-emerald-500">
+                  Muy anudado
+                </button>
+              </div>
+            </div>
+
+            <!-- Temperamento en peluquería -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Comportamiento con el agua y secador</label>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="temperament-selector">
+                <button type="button" data-temp="Súper tranquilo" class="temp-card active-temp p-2 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-xs font-medium text-emerald-800 text-center">
+                  😌 Súper dócil
+                </button>
+                <button type="button" data-temp="Miedoso / Tiembla" class="temp-card p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-700 text-center hover:border-emerald-500">
+                  🥺 Miedoso
+                </button>
+                <button type="button" data-temp="Inquieto / Activo" class="temp-card p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-700 text-center hover:border-emerald-500">
+                  ⚡ Inquieto
+                </button>
+                <button type="button" data-temp="Reactivo / Puede morder" class="temp-card p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-700 text-center hover:border-red-400">
+                  ⚠️ Reactivo
+                </button>
+              </div>
+            </div>
+
+            <!-- Checks de piel y pulgas -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/60 cursor-pointer text-xs font-medium text-slate-700">
+                <input type="checkbox" id="check-fleas" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
+                <span>¿Tiene pulgas o garrapatas visibles?</span>
+              </label>
+              <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/60 cursor-pointer text-xs font-medium text-slate-700">
+                <input type="checkbox" id="check-skin" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
+                <span>¿Piel sensible o alergia a shampoo común?</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- STEP 3-B: CONDITIONAL SECTION - VETERINARIA & AI TRIAGE -->
+          <div id="section-vet" class="border-t border-slate-100 pt-6 space-y-4 hidden">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                <i data-lucide="stethoscope" class="w-4 h-4 text-emerald-600"></i>
+                <span>3. Motivo Clínico & Triage Inteligente</span>
+              </h2>
+              <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
+                <i data-lucide="cpu" class="w-3 h-3"></i> Triage IA Activo
+              </span>
+            </div>
+
+            <!-- Motivo Principal -->
+            <div>
+              <label for="vet-reason" class="block text-xs font-semibold text-slate-700 mb-1">Motivo de la Consulta</label>
+              <select id="vet-reason" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <option value="Consulta clínica general">Consulta clínica general</option>
+                <option value="Vacunación / Libreta Sanitaria">Vacunación / Libreta Sanitaria</option>
+                <option value="Desparasitación interna / externa">Desparasitación interna / externa</option>
+                <option value="Control post-quirúrgico / Puntos">Control post-quirúrgico / Retiro de puntos</option>
+                <option value="Chequeo preventivo / Análisis">Chequeo preventivo / Análisis de rutina</option>
+                <option value="Problemas de piel / Oídos / Ojos">Problemas de piel / Oídos / Ojos</option>
+                <option value="Síntomas agudos / Malestar">Síntomas agudos / Malestar general</option>
+              </select>
+            </div>
+
+            <!-- Síntomas y Triage en Vivo -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="vet-symptoms" class="block text-xs font-semibold text-slate-700">
+                  Describí los síntomas o motivo específico *
+                </label>
+                <span class="text-[11px] text-slate-400">Escribí lo que observás en tu perro</span>
+              </div>
+              <textarea id="vet-symptoms" rows="3" placeholder="Ej: Está decaído hace 2 días, no quiere comer su balanceado y toma mucha agua..."
+                class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"></textarea>
+            </div>
+
+            <!-- AI TRIAGE ALERT BOX (Dynamic via JavaScript) -->
+            <div id="ai-triage-box" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 text-xs transition-all duration-300">
+              <div class="flex items-start gap-2.5">
+                <div id="ai-triage-icon" class="p-1 rounded-md bg-emerald-100 text-emerald-700 mt-0.5">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span id="ai-triage-title" class="font-bold text-slate-800">Triage IA: Caso programable</span>
+                    <span id="ai-triage-badge" class="text-[10px] font-semibold bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">Prioridad Normal</span>
+                  </div>
+                  <p id="ai-triage-desc" class="text-slate-600 mt-1">
+                    Completá los datos para agendar el turno por WhatsApp según disponibilidad.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Medicación actual -->
+            <div>
+              <label for="vet-meds" class="block text-xs font-semibold text-slate-700 mb-1">¿Toma alguna medicación actualmente?</label>
+              <input type="text" id="vet-meds" placeholder="Ej: No toma nada / Enalapril 5mg / Gotas para oídos"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+          </div>
+
+          <!-- STEP 4: PREFERENCIA DE HORARIO Y TUTOR -->
+          <div class="border-t border-slate-100 pt-6 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="clock" class="w-4 h-4 text-emerald-600"></i>
+              <span>4. Preferencia Horaria y Datos de Contacto</span>
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Franja Horaria -->
+              <div>
+                <label for="time-preference" class="block text-xs font-semibold text-slate-700 mb-1">Preferencia Horaria *</label>
+                <select id="time-preference" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                  <option value="Turno Mañana (09:00 a 13:00 hs)">Turno Mañana (09:00 a 13:00 hs)</option>
+                  <option value="Turno Tarde (14:00 a 19:00 hs)">Turno Tarde (14:00 a 19:00 hs)</option>
+                  <option value="Indistinto / Primer turno disponible">Indistinto / Primer turno disponible</option>
+                </select>
+              </div>
+
+              <!-- Día sugerido -->
+              <div>
+                <label for="day-preference" class="block text-xs font-semibold text-slate-700 mb-1">Día Preferido</label>
+                <select id="day-preference" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                  <option value="Lo antes posible (Hoy o Mañana)">Lo antes posible (Hoy o Mañana)</option>
+                  <option value="Lunes a Miércoles">Lunes a Miércoles</option>
+                  <option value="Jueves a Sábado">Jueves a Sábado</option>
+                  <option value="Solo fines de semana (Sábado)">Solo fines de semana (Sábado)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Pet Taxi Checkbox -->
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+              <label class="flex items-center gap-2.5 cursor-pointer text-xs font-medium text-slate-700">
+                <input type="checkbox" id="check-transport" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
+                <div class="flex items-center gap-1.5">
+                  <i data-lucide="car" class="w-4 h-4 text-slate-500"></i>
+                  <span>¿Requiere servicio de <strong>Pet Taxi / Traslado a domicilio</strong>?</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Tutor Info -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div>
+                <label for="owner-name" class="block text-xs font-semibold text-slate-700 mb-1">Nombre del Tutor/Dueño *</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                  </div>
+                  <input type="text" id="owner-name" placeholder="Ej: Santiago Pérez" required
+                    class="input-with-icon w-full pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+              </div>
+
+              <div>
+                <label for="owner-phone" class="block text-xs font-semibold text-slate-700 mb-1">Teléfono / WhatsApp de Contacto</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <i data-lucide="phone" class="w-4 h-4"></i>
+                  </div>
+                  <input type="tel" id="owner-phone" placeholder="Ej: 11 4455-6677"
+                    class="input-with-icon w-full pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+              </div>
+            </div>
+
+            <!-- Notas adicionales -->
+            <div>
+              <label for="additional-notes" class="block text-xs font-semibold text-slate-700 mb-1">Aclaraciones adicionales (opcional)</label>
+              <input type="text" id="additional-notes" placeholder="Ej: Es un perrito rescatado, le asustan los ruidos fuertes"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+          </div>
+
+          <!-- SUBMIT CTA BUTTON -->
+          <div class="pt-4">
+            <button type="button" id="btn-send-whatsapp" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-base flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/25 transition-all transform active:scale-[0.98]">
+              <i data-lucide="message-circle" class="w-6 h-6"></i>
+              <span>Solicitar Turno por WhatsApp</span>
+            </button>
+            <p class="text-center text-[11px] text-slate-400 mt-2">
+              Se abrirá WhatsApp con todos los datos ordenados en un mensaje listo para enviar.
+            </p>
+          </div>
+        </form>
+
+        <!-- SENIOR ESCAPE BANNER (ADULTOS MAYORES 60+) -->
+        <div class="mt-8 p-5 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 shadow-sm">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-amber-200 text-amber-900 flex items-center justify-center font-bold text-2xl shrink-0 shadow-sm border border-amber-300">
+                👵
+              </div>
+              <div>
+                <h4 class="text-sm font-extrabold text-slate-900">¿Te resulta difícil la web o preferís hablar directo?</h4>
+                <p class="text-xs text-slate-600 mt-0.5">¡No te preocupes! Podés mandarnos un audio por WhatsApp o llamarnos directamente.</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
+              <a id="btn-senior-whatsapp" href="#" target="_blank"
+                class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold px-4 py-3 rounded-xl shadow transition active:scale-95">
+                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                <span>Mandar Audio por WhatsApp</span>
+              </a>
+              <a id="btn-senior-call" href="#"
+                class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-3 rounded-xl shadow transition active:scale-95">
+                <i data-lucide="phone-call" class="w-4 h-4"></i>
+                <span>Llamar por Teléfono</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PREVIEW COLUMN (5 cols) - LIVE WHATSAPP MESSAGE PREVIEW -->
+      <div class="lg:col-span-5 sticky top-24 space-y-4">
+
+        <!-- PHONE FRAME / LIVE WHATSAPP PREVIEW -->
+        <div class="bg-slate-900 rounded-3xl p-3 shadow-2xl border border-slate-800">
+          <!-- Phone Speaker & Camera Notch -->
+          <div class="flex justify-between items-center px-4 py-1.5 text-[11px] text-slate-400">
+            <span class="font-medium" id="mockup-clock">10:45</span>
+            <div class="w-16 h-3 bg-slate-800 rounded-full"></div>
+            <div class="flex items-center gap-1">
+              <i data-lucide="wifi" class="w-3 h-3"></i>
+              <i data-lucide="battery-charging" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+
+          <!-- WhatsApp Chat Header -->
+          <div class="bg-[#075E54] text-white px-3 py-2.5 rounded-t-2xl flex items-center justify-between shadow">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-700 flex items-center justify-center font-bold text-xs">
+                CP
+              </div>
+              <div>
+                <h4 class="font-bold text-xs text-white leading-tight">CaniPet Oficial</h4>
+                <p class="text-[10px] text-emerald-200">En línea (Recepción)</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 text-emerald-100">
+              <i data-lucide="video" class="w-4 h-4"></i>
+              <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+              <i data-lucide="more-vertical" class="w-4 h-4"></i>
+            </div>
+          </div>
+
+          <!-- Chat Body Background -->
+          <div class="whatsapp-chat-bg p-3 min-h-[380px] max-h-[500px] overflow-y-auto space-y-3 rounded-b-2xl flex flex-col justify-end">
+            <!-- Business Greeting -->
+            <div class="bg-white rounded-lg p-2.5 text-xs text-slate-800 shadow-sm max-w-[85%] self-start rounded-tl-none border border-slate-100">
+              <p>¡Hola! 🐶 Gracias por contactar a <strong>CaniPet</strong>. ¿Qué servicio estás buscando para tu mascota?</p>
+              <span class="text-[9px] text-slate-400 block text-right mt-1">10:44</span>
+            </div>
+
+            <!-- Outgoing Formatted Request (Dynamic) -->
+            <div class="bg-[#DCF8C6] rounded-lg p-3 text-xs text-slate-900 shadow-sm max-w-[95%] self-end rounded-tr-none border border-emerald-200">
+              <div class="flex items-center justify-between border-b border-emerald-300/60 pb-1.5 mb-2">
+                <span class="font-extrabold text-[11px] text-emerald-900 flex items-center gap-1">
+                  <span id="preview-badge-service">✂️ PELUQUERÍA</span>
+                </span>
+                <span class="text-[9px] bg-emerald-600 text-white font-bold px-1.5 py-0.5 rounded">Ficha Web</span>
+              </div>
+
+              <!-- Live text formatted message -->
+              <pre id="whatsapp-preview-text" class="font-sans whitespace-pre-wrap text-[11px] leading-relaxed text-slate-800"></pre>
+
+              <div class="flex items-center justify-end gap-1 mt-2 text-[9px] text-emerald-800 font-medium">
+                <span>Ahora</span>
+                <i data-lucide="check-check" class="w-3 h-3 text-emerald-600"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PITCH HIGHLIGHT CARD (For Tomorrow's Sale Pitch!) -->
+        <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl p-5 shadow-lg border border-indigo-500/30">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+              <i data-lucide="zap" class="w-4 h-4"></i>
+            </span>
+            <h4 class="font-bold text-sm text-indigo-200">Valor para el Dueño del Local</h4>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Mostrale esta vista previa en vivo en tu celular. Explicale que <strong>cada turno le llega listo en 1 segundo</strong>, sin preguntas repetitivas, con el peso, el carácter y las alertas clínicas ya resueltas.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL: SET WHATSAPP NUMBER -->
+  <div id="modal-phone" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <i data-lucide="settings" class="w-5 h-5 text-emerald-600"></i>
+          <span>Configurar WhatsApp de Destino</span>
+        </h3>
+        <button id="close-modal-phone" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <p class="text-xs text-slate-600 mb-4">
+        Ingresá el número de WhatsApp de la veterinaria o el tuyo propio para la demostración (con código de país sin el +).
+      </p>
+      <div class="mb-4">
+        <label for="input-target-phone" class="block text-xs font-semibold text-slate-700 mb-1">Número de WhatsApp (con código de país)</label>
+        <div class="relative">
+          <input type="text" id="input-target-phone" placeholder="Ej: 5491123456789"
+            class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono">
+        </div>
+        <p class="text-[11px] text-slate-400 mt-1">Ejemplo Argentina: 549 + código de área + número</p>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button type="button" id="btn-save-phone" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition">
+          Guardar Número
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
+          <i data-lucide="dog" class="w-3.5 h-3.5"></i>
+        </div>
+        <span class="font-bold text-slate-800">CaniPet</span>
+        <span class="text-slate-400">© 2026 Todos los derechos reservados</span>
+      </div>
+      <p class="text-slate-400">Desarrollado para atención clínica y estética canina de alta eficiencia</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
