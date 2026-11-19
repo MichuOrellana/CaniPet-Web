@@ -1,5 +1,21 @@
 /* styles.css - Custom UI enhancements for CaniPet */
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Prevent any accidental text overflows */
+h1, h2, h3, h4, p, span, label, button {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
 /* WhatsApp Chat Background */
 .whatsapp-chat-bg {
   background-color: #efeae2;
